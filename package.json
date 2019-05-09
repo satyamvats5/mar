@@ -1,0 +1,37 @@
+{
+  "name": "mar",
+  "version": "1.0.0",
+  "description": "A project for managing MAR points for students of MAKAUT, WB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satyamvats5/MAR.git"
+  },
+  "author": "BytesClub",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/satyamvats5/MAR/issues"
+  },
+  "homepage": "https://github.com/satyamvats5/MAR#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-mysql-session": "^2.1.0",
+    "express-session": "^1.16.1",
+    "json-parser": "^1.1.5",
+    "multer": "^1.4.1",
+    "mysql2": "^1.6.5",
+    "path": "^0.12.7",
+    "sequelize": "^4.44.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
