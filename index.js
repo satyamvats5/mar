@@ -26,7 +26,9 @@ const bodyParser = require('body-parser');
 
 const cookieParser = require('cookie-parser');
 
-// const router = require('./router/index');
+const router = require('./router/indexRouter');
+
+const key = require('./util/config');
 
 const session = require('express-session');
 
@@ -38,7 +40,7 @@ const options = require('./config/database/databaseConfig');
 
 const db_connection = require('./util/database/db_connect');
 
-const colleges = require('./models/users/college');
+const colleges = require('./models/college/college');
 
 const mentors = require('./models/mentor/mentor');
 
@@ -64,6 +66,14 @@ app.use(
 
 var sessionStore = new MySQLStore(options);
 
+app.use(session({
+	secret: key.keyCookie,
+	resave: true,
+	saveUninitialized: false,
+	//cookie: {maxAge: 10000, httpOnly: true, isLoggedIn: false},
+	store: sessionStore
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser());
@@ -74,7 +84,7 @@ app.use(function(req, res, next) {
     next();
 })
 
-// app.use('/', router);
+app.use('/', router);
 
 app.set('port', PORT);
 
@@ -91,7 +101,7 @@ var server = app.listen(
 		var port = server.address().port;
 		console.log("Server is running on port: " + port);
 		db_connection
-		.sync({force:true})
+		.sync({force:false})
 		.then(() => {
 			console.log('Database connected!');
 		})

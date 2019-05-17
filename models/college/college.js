@@ -11,12 +11,12 @@ const College = conn.define('college', {
     phone: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        unique: true
+        // unique: true
     },
     email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        // unique: true
     },
     password: {
         type: Sequelize.STRING,
