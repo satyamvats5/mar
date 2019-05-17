@@ -15,3 +15,20 @@ exports.adminUpdate = (req, res, next) => {
 exports.adminAddCollege = (re, res, next) => {
     res.sendFile(path.join(__dirname + '../../../public/admin/admin_add_college.html'))
 }
+
+exports.spocHome = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/spoc/index.html'));
+}
+
+exports.spocUpdate = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/spoc/spoc_update.html'));
+}
+
+exports.spocApprove = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/spoc/spoc_approve.html'));
+}
+
+exports.spocAddMentor = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/spoc/spoc_add_mentor.html'));
+}
+

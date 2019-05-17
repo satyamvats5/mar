@@ -15,11 +15,130 @@ exports.logoutController = (req, res, next) => {
     return res.redirect('/');
 }
 
+exports.changePassword = (req, res, next) => {
+    const role = req.session.role;
+    if(role == 'admin') {
+        const id = req.session.values;
+        
+        const old = req.body.old;
+        const news = req.body.new;
+        Admin.findOne(
+            {
+                where: {
+                    id: id
+                }
+            }
+        )
+        .then(adminRes => {
+            // console.log(adminRes.dataValues.id);
+            if(adminRes == null) {
+                return res
+                    .status(200) 
+                    .json({status: 404 , message: "Invalidpassword"});
+            }
+            console.log(old, adminRes.dataValues.password);
+            return bcrypt
+                .compare(old, adminRes.dataValues.password)
+                .then(check => {
+                    console.log(check);
+                    if(check) {
+                        bcrypt
+                            .hash(news, 12)
+                            .then(hashedPwds => {
+                                return Admin.update(
+                                    {
+                                        password: hashedPwds
+                                    },
+                                    {
+                                        where : {
+                                            id: id
+                                        }
+                                    }
+                                    
+                                )
+                            })
+                            .then(updated => {
+                                    res.redirect('/admin-index');
+                            })
+                        } else {
+                            return res
+                                .status(200) 
+                                .json({status: 404 , message: "Invalidpassword"});
+                        }
+                    })
+                })
+                .catch(err => {
+                    console.log(err.toString())
+                    return res.status(200)
+                    .json({status: 400, message: "Some Error occured, Please try again"});
+                })
+
+    } else if(role =="spoc") {
+            const college_code = req.session.college_id;
+            console.log(college_code);
+            const old = req.body.old;
+            const news = req.body.new;
+            console.log(old, news);
+
+            Spoc.findOne(
+                {
+                    where: {
+                        college_code: college_code
+                    }
+                }
+            )
+            .then(adminRes => {
+                // console.log(adminRes.dataValues.id);
+
+                if(adminRes == null) {
+                    return res
+                        .status(200) 
+                        .json({status: 404 , message: "Invalid"});
+                }
+                console.log(old, adminRes.dataValues.password);
+                return bcrypt
+                    .compare(old, adminRes.dataValues.password)
+                    .then(check => {
+                        console.log(check);
+                        if(check) {
+                            bcrypt
+                                .hash(news, 12)
+                                .then(hashedPwds => {
+                                    return Spoc.update(
+                                        {
+                                            password: hashedPwds
+                                        },
+                                        {
+                                            where : {
+                                                college_code: college_code
+                                            }
+                                        }
+                                        
+                                    )
+                                })
+                                .then(updated => {
+                                        res.redirect('/spoc-index');
+                                })
+                            } else {
+                                return res
+                                    .status(200) 
+                                    .json({status: 404 , message: "Invalidpassword"});
+                            }
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err.toString())
+                        return res.status(200)
+                        .json({status: 400, message: "Some Error occured, Please try again"});
+                    })
+    }
+}
+
 exports.collegeSignup = (req, res, next) => {
     console.log(req.body);
     const college_code = req.body.code;
     const email = req.body.email;
-    const password = req.body.collegecode;
+    const password = college_code;
     const name = req.body.name;
     Spoc.findOne({where : 
         {
@@ -33,7 +152,7 @@ exports.collegeSignup = (req, res, next) => {
                         .json({status: 400 , message: "College Spoc already registered!"});
             }
             return bcrypt
-                .hash(password, 12)
+                .hash(password, 10)
                 .then(hashedPwd => {
                     const spoc = new Spoc(
                         {
@@ -46,16 +165,64 @@ exports.collegeSignup = (req, res, next) => {
                     return spoc.save()
                 })
                 .then(() => {
-                    return res.render('/admin-add-college');
+                    return res.redirect('/admin-add-college');
                     // return res
                     //     .status(201)
                     //     .json({status: 201, message: "Spoc added successfully"}); 
                 })
         })
         .catch(err => {
-            return res
-                    .status(400)
-                    .json({"status": 400, "message": err.toString()});
+            console.log(err.toString())
+            return res.status(200)
+            .json({status: 400, message: "Some Error occured, Please try again"});
+        })
+}
+
+exports.mentorSignup = (req, res, next) => {
+    console.log(req.body);
+
+    const email = req.body.email;
+    const password = req.session.college_id;
+    const department = req.body.dept;
+    const designation = req.body.desg;
+    const name = req.body.name;
+
+    Mentor.findOne({where : 
+        {
+            email: email
+        }
+    })
+        .then(collegeSpoc => {
+            if(collegeSpoc != null) {
+                return res  
+                        .status(200)
+                        .json({status: 400 , message: "Mentor's email id  already Occupied!"});
+            }
+            return bcrypt
+                .hash(password, 10)
+                .then(hashedPwd => {
+                    const mentor = new Mentor(
+                        {
+                            email: email,
+                            department: department,
+                            designation: designation,
+                            password: hashedPwd,
+                            name: name
+                        }
+                    )
+                    return mentor.save()
+                })
+                .then(() => {
+                    return res.redirect('/spoc-add-mentor');
+                    // return res
+                    //     .status(201)
+                    //     .json({status: 201, message: "Spoc added successfully"}); 
+                })
+        })
+        .catch(err => {
+            console.log(err.toString())
+            return res.status(200)
+            .json({status: 400, message: "Some Error occured, Please try again"});
         })
 }
 
@@ -73,6 +240,7 @@ exports.loginController = (req, res, next) => {
             }
         )
         .then(adminRes => {
+            // console.log(adminRes.dataValues.id);
             if(!adminRes) {
                 return res
                     .status(200) 
@@ -82,12 +250,12 @@ exports.loginController = (req, res, next) => {
                 .compare(pwd, adminRes.dataValues.password)
                 .then(check => {
                     if(check) {
+                        
                         console.log("Admin logged in succesfully");
                         req.session.isLoggedIn = true;
+                        req.session.values = adminRes.dataValues.id;
                         req.session.role = "admin";
                         req.session.cookie.maxAge = 10000 * 60 * 60;
-                        const file = path.join(__dirname + '../../../public/admin/index.html');
-                        console.log(file);
                         return res.redirect('/admin-index');
                         // return res
                         //     .status(200)
@@ -127,12 +295,7 @@ exports.loginController = (req, res, next) => {
                         req.session.role = "spoc";
                         req.session.college_id = adminRes.dataValues.college_code;
                         req.session.cookie.maxAge = 10000 * 60 * 60;
-                        return res
-                            .status(200)
-                            .json({
-                                status: 200 ,
-                                message: "Spoc Logged-In  Successfully",
-                            });
+                        return res.redirect('/spoc-index');
                     } else {
                         return res
                             .status(200) 

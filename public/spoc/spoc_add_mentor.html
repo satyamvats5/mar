@@ -24,24 +24,26 @@
   <div class="sidebar">
 		<br><br><br><br><br>
 		  <h3><center>Dashboard</center></h3><hr>
-		  <a href="#">Details</a>
-		  <a href="#">Update</a>
-      <a href="#">Approve</a>
+		  <a href="/spoc-index">Details</a>
+		  <a href="/spoc-update">Update</a>
+      <a href="/spoc-approve">Approve</a>
       <a class="active" href="#">Add Mentor</a>
-		  <a href="#">Logout</a>
+		  <a href="/logout">Logout</a>
 		</div>
 		<div class="content">
 			<br><br><br><br><br>
       <div class="container">
+        <form method="POST" action="/mentor-signup"> 
         <h3 style="color:#6D6DA1;"><u><b>Add Mentor</b></u></h3>
         <label for="clg_number"><b>College Code	 : </b></label><button class="btn">000</button><br>
         <label for="clg_name"><b>College Name	 : </b></label><button class="btn">ACBD</button><br>
         <label for="spoc_id"><b>SPOC ID  : </b></label><button class="btn">123456</button><br>
-        <label for="mentor_name"><b>Mentor Name  : </b></label><input type="text" class="form-control" id="mentor_name" placeholder="Enter Mentor Name"><br>
-        <label for="mentor_dept"><b>Department  : </b></label><input type="text" class="form-control" id="mentor_dept" placeholder="Enter Department Name"><br>
-        <label for="mentor_desig"><b>Designation  : </b></label><input type="text" class="form-control" id="mentor_desig" placeholder="Enter Designation"><br>
-        <label for="mentor_emailid"><b>Email ID  : </b></label><input type="email" class="form-control" id="mentor_emailid" placeholder="Enter Email ID"><br>
-        <button type="button" class="btn btn-danger">Submit</button>
+        <label for="mentor_name"><b>Mentor Name  : </b></label><input type="text" class="form-control" name="name" id="mentor_name" placeholder="Enter Mentor Name"><br>
+        <label for="mentor_dept"><b>Department  : </b></label><input type="text" class="form-control" name="dept" id="mentor_dept" placeholder="Enter Department Name"><br>
+        <label for="mentor_desig"><b>Designation  : </b></label><input type="text" class="form-control" name="desg" id="mentor_desig" placeholder="Enter Designation"><br>
+        <label for="mentor_emailid"><b>Email ID  : </b></label><input type="email" class="form-control" name="email" id="mentor_emailid" placeholder="Enter Email ID"><br>
+        <button type="submit" class="btn btn-danger">Submit</button>
+        </form>
       </div>
 		</div>
 

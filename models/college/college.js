@@ -9,8 +9,8 @@ const College = conn.define('college', {
         allowNull: false,
     },
     phone: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
+        type: Sequelize.STRING,
+        allowNull: true,
         // unique: true
     },
     email: {
@@ -27,5 +27,6 @@ const College = conn.define('college', {
         allowNull: false,
     }
 }, {timestamps : true}, {underscored: true});
+
 
 module.exports = College;

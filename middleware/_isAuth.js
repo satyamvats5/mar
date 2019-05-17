@@ -5,3 +5,11 @@ exports.admin = (req, res, next) => {
     console.log("Logged In");
     next();
 };
+
+exports.spoc = (req, res, next) => {
+    if(!req.session.isLoggedIn && req.session.role != 'spoc') {
+        return res.redirect('/');
+    }
+    console.log("Logged In");
+    next();
+};

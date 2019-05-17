@@ -5,8 +5,7 @@ const Mentor = conn.define('mentor', {
     mentor_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
+        autoIncrement: 1,
     },
     name: {
         type: Sequelize.STRING,
@@ -16,16 +15,24 @@ const Mentor = conn.define('mentor', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    department: {
+        type: Sequelize.ENUM,
+        values: ['CSE', 'IT', 'MECHANICAL', 'CIVIL', 'CHEMICAL', 'FIBER', 'JUTE'],
+        allowNull: false
+    },
+    designation: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     phone: {
         type: Sequelize.BIGINT,
-        unique: true,
-        allowNull: false
     },
     email: {
         type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 }, {timestamps : true}, {underscored: true});
+
 
 module.exports = Mentor;
