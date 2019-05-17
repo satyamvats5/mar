@@ -13,3 +13,11 @@ exports.spoc = (req, res, next) => {
     console.log("Logged In");
     next();
 };
+
+exports.mentor = (req, res, next) => {
+    if(!req.session.isLoggedIn && req.session.role != 'mentor') {
+        return res.redirect('/');
+    }
+    console.log("Logged In");
+    next();
+};

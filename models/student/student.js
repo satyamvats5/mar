@@ -18,6 +18,10 @@ const College = conn.define('student', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    num_sem: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     email: {
         type: Sequelize.STRING,
         allowNull: true,

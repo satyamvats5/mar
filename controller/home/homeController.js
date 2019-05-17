@@ -32,3 +32,14 @@ exports.spocAddMentor = (req, res, next) => {
     res.sendFile(path.join(__dirname + '../../../public/spoc/spoc_add_mentor.html'));
 }
 
+exports.mentorHome = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/mentor/index.html'));
+}
+
+exports.mentorUpdate = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/mentor/mentor_update.html'));
+}
+
+exports.mentorAddStudent = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/mentor/mentor_student_add.html'));
+}

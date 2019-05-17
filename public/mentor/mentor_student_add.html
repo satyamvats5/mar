@@ -24,20 +24,21 @@
   <div class="sidebar">
 		<br><br><br><br><br>
 		  <h3><center>Dashboard</center></h3><hr>
-		  <a href="mentor/index.html">Details</a>
-		  <a href="mentor/mentor_update.html">Update</a>
-      <a class="active" href="mentor/mentor_student_add.html">Add Student</a>
-		  <a href="#">Logout</a>
+		  <a href="/mentor-index">Details</a>
+		  <a href="/mentor-update">Update</a>
+      <a class="active" href="#">Add Student</a>
+		  <a href="/logout">Logout</a>
 		</div>
 		<div class="content">
 			<br><br><br><br><br>
       <div class="container">
-            <label for="clg_code"><b>College Code & Name	: </b></label><input type="text" class="form-control" id="clg_code_name" placeholder="Enter College Code & Name">
-            <label for="course"><b>Course	: </b></label><input type="text" class="form-control" id="course" placeholder="Enter Course">
-            <label for="stud_name"><b>Student Name	: </b></label><input type="text" class="form-control" id="stud_name" placeholder="Enter Name">
-            <label for="roll_no"><b>Roll No	: </b></label><input type="text" class="form-control" id="roll_no" placeholder="Enter Roll No">
-            <label for="reg_no"><b>Reg No	: </b></label><input type="text" class="form-control" id="reg_no" placeholder="Enter Reg No">
-            <label for="sem_no"><b>Number of Semesters	: </b></label><input type="text" class="form-control" id="sem_no" placeholder="Enter Total Number of Semesters"><br>
+          <form method="POST" action="/add-student">
+            <label for="clg_code"><b>College Code & Name	: </b></label><input name="college-name" type="text" class="form-control" id="clg_code_name" placeholder="Enter College Code & Name">
+            <label for="course"><b>Course	: </b></label><input type="text" name="course" class="form-control" id="course" placeholder="Enter Course">
+            <label for="stud_name"><b>Student Name	: </b></label><input name="name" type="text" class="form-control" id="stud_name" placeholder="Enter Name">
+            <label for="roll_no"><b>Roll No	: </b></label><input name="roll" type="text" class="form-control" id="roll_no" placeholder="Enter Roll No">
+            <label for="reg_no"><b>Reg No	: </b></label><input name="reg" type="text" class="form-control" id="reg_no" placeholder="Enter Reg No">
+            <label for="sem_no"><b>Number of Semesters	: </b></label><input type="text" name="sem" class="form-control" id="sem_no" placeholder="Enter Total Number of Semesters"><br>
             <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
@@ -573,8 +574,10 @@
         </table>
         <label for="total_points"><b>Total Points	: </b></label><input type="text" class="form-control" id="total_points" readonly="true">
       <br><br></div>
-      <button type="button" class="btn btn-danger">Submit</button><br><br>
-		</div>
+      <button type="submit" class="btn btn-danger">Submit</button><br><br>
+    </form>    
+    </div>
+   
 
 	<nav class="navbar navbar2 fixed-bottom navbar-dark bg-dark">
 		<p> <font color="white"><center>&copy; All Rights Reserved, Maulana Abul Kalam Azad University of Technology, West Bengal | Designed & Developed by <strong> <a href="#">Team Revolutionarary</a> </strong></center></font></p>

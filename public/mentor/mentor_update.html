@@ -24,10 +24,10 @@
   <div class="sidebar">
 		<br><br><br><br><br>
 		  <h3><center>Dashboard</center></h3><hr>
-		  <a href="#">Details</a>
+		  <a href="/mentor-index">Details</a>
 		  <a class="active" href="#">Update</a>
-		  <a href="#">Add Student</a>
-		  <a href="#">Logout</a>
+		  <a href="/mentor-add-student">Add Student</a>
+		  <a href="/logout">Logout</a>
 		</div>
 		<div class="content">
 			<br><br><br><br><br>
@@ -36,9 +36,11 @@
           <br>
 				<h3 style="color:#6D6DA1;"><u><b>UPDATE</b></u></h3>
         <br>
-				<label for="passwd"><b>Old Password	: </b></label><input type="password" class="form-control" id="old_passwd" placeholder="Enter Old Password"><br>
-        <label for="passwd"><b>New Password	: </b></label><input type="password" class="form-control" id="new_passwd" placeholder="Enter New Password"><br>
-        <button type="button" class="btn btn-danger">Submit</button>
+      <form method="POST" action="/change-password">
+				<label for="passwd"><b>Old Password	: </b></label><input name="old" type="password" class="form-control" id="old_passwd" placeholder="Enter Old Password"><br>
+        <label for="passwd"><b>New Password	: </b></label><input name="new" type="password" class="form-control" id="new_passwd" placeholder="Enter New Password"><br>
+        <button type="submit" class="btn btn-danger">Submit</button>
+      </form>
       </div>
       </div>
 		</div>
