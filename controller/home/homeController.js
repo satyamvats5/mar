@@ -43,3 +43,11 @@ exports.mentorUpdate = (req, res, next) => {
 exports.mentorAddStudent = (req, res, next) => {
     res.sendFile(path.join(__dirname + '../../../public/mentor/mentor_student_add.html'));
 }
+
+exports.studentHome = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/student/index.html'));
+}
+
+exports.studentUpdate = (req, res, next) => {
+    res.sendFile(path.join(__dirname + '../../../public/student/student_update.html'));
+}

@@ -21,3 +21,11 @@ exports.mentor = (req, res, next) => {
     console.log("Logged In");
     next();
 };
+
+exports.student = (req, res, next) => {
+    if(!req.session.isLoggedIn && req.session.role != 'student') {
+        return res.redirect('/');
+    }
+    console.log("Logged In");
+    next();
+};

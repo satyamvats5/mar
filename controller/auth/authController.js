@@ -189,7 +189,65 @@ exports.changePassword = (req, res, next) => {
                     return res.status(200)
                     .json({status: 400, message: "Some Error occured, Please try again"});
                 })
-        }
+        } else if(role =="student") {
+            const reg_no = req.session.reg_no;
+            // console.log(college_code);
+            const old = req.body.old;
+            const news = req.body.new;
+            console.log(old, news);
+    
+            Student.findOne(
+                {
+                    where: {
+                        reg_no: reg_no
+                    }
+                }
+            )
+            .then(adminRes => {
+                // console.log(adminRes.dataValues.id);
+    
+                if(adminRes == null) {
+                    return res
+                        .status(200) 
+                        .json({status: 404 , message: "Invalid"});
+                }
+                console.log(old, adminRes.dataValues.password);
+                return bcrypt
+                    .compare(old, adminRes.dataValues.password)
+                    .then(check => {
+                        if(check) {
+                            bcrypt
+                                .hash(news, 12)
+                                .then(hashedPwds => {
+                                    return Student.update(
+                                        {
+                                            password: hashedPwds
+                                        },
+                                        {
+                                            where : {
+                                                reg_no: reg_no
+                                            }
+                                        }
+                                        
+                                    )
+                                })
+                                .then(updated => {
+                                        console.log(updated);
+                                        return res.redirect('/student-index');
+                                })
+                            } else {
+                                return res
+                                    .status(200) 
+                                    .json({status: 404 , message: "Invalidpassword"});
+                            }
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err.toString())
+                        return res.status(200)
+                        .json({status: 400, message: "Some Error occured, Please try again"});
+                    })
+            }
 }
 
 exports.studentSignup = (req, res, next) => {
@@ -198,9 +256,10 @@ exports.studentSignup = (req, res, next) => {
     const email = req.body.email;
     const roll_no = req.body.roll;
     const reg_no = req.body.reg;
-    const password = roll_no.toString();
+    console.log(req.session.college_code, req.session.college_id);
     const mentor_id = req.session.mentor_id;
     const college_id = req.session.college_id;
+    const password = college_id.toString();
 
     Student.findOne({where : 
         {
@@ -424,8 +483,45 @@ exports.loginController = (req, res, next) => {
                         req.session.role = "mentor";
                         req.session.college_id = adminRes.dataValues.college_code;
                         req.session.mentor_id = adminRes.dataValues.mentor_id;
+                        console.log(req.session.college_id, req.session.mentor_id)
                         req.session.cookie.maxAge = 10000 * 60 * 60;
                         return res.redirect('/mentor-index');
+                    } else {
+                        return res
+                            .status(200) 
+                            .json({status: 404 , message: "Invalid id or password"});
+                    } 
+                })
+        })
+    } else if(role == "student") {
+        const username = req.body.username;
+        const pwd = req.body.password;
+
+        Student.findOne(
+            {
+                where: {
+                    reg_no: username
+                }
+            }
+        )
+        .then(adminRes => {
+            if(!adminRes) {
+                return res
+                    .status(200) 
+                    .json({status: 404 , message: "Invalid id or password"});
+            }
+            bcrypt
+                .compare(pwd, adminRes.dataValues.password)
+                .then(check => {
+                    if(check) {
+                        console.log("Student logged in succesfully");
+                        req.session.isLoggedIn = true;
+                        req.session.role = "student";
+                        req.session.college_id = adminRes.dataValues.college_code;
+                        req.session.mentor_id = adminRes.dataValues.mentor_id;
+                        req.session.reg_no = adminRes.dataValues.reg_no;
+                        req.session.cookie.maxAge = 10000 * 60 * 60;
+                        return res.redirect('/student-index');
                     } else {
                         return res
                             .status(200) 

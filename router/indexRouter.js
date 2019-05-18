@@ -27,6 +27,10 @@ router
     .post('/add-student', isAuth.mentor, authController.studentSignup)
 
 router
+    .get('/student-index', isAuth.student, homeController.studentHome)
+    .get('/student-update', isAuth.student, homeController.studentUpdate)
+
+router
     .get('/spoc-index', isAuth.spoc, homeController.spocHome)
     .get('/spoc-update', isAuth.spoc, homeController.spocUpdate)
     .get('/spoc-approve', isAuth.spoc, homeController.spocApprove)
